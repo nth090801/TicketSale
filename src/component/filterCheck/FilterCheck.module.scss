@@ -1,0 +1,52 @@
+.wrap_FilterCheck {
+  background-color: white;
+  height: 85vh;
+  border-radius: 24px;
+  padding: 15px;
+}
+.wrap_radioFilterCheck{
+  display: flex;
+  justify-content: space-between;
+}
+.label_radioFilterCheck{
+  margin-top: 15px;
+}
+.radioFilterCheck {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.filterTypeTicket{
+  display: flex;
+  margin-top: 15px;
+  height: 26px;
+  
+}
+.p_TypeTicket{
+  margin-left: 144px;
+}
+.FilterDate {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+.wrap_FilterBtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  //   align-items: center;
+  margin-top: 20px;
+}
+.filterBtn {
+  padding: 7px 40px;
+  border-radius: 10px;
+  background-color: white;
+  border-color: rgba(255, 153, 60, 1);
+  color: rgba(255, 153, 60, 1);
+}
+
+.selectOptions {
+  width: 100%;
+}

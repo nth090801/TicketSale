@@ -7,6 +7,7 @@ import Col from "react-bootstrap/esm/Col";
 
 import styles from "./ServicePack.module.scss";
 import classnames from "classnames/bind";
+import PackTicket from "../../component/packticket/PackTicket";
 
 const cx = classnames.bind(styles);
 
@@ -17,6 +18,9 @@ const ServicePack = () => {
       <Row>
         <Col lg={2}>
           <Menubar />
+        </Col>
+        <Col lg={10}>
+          <PackTicket />
         </Col>
       </Row>
     </Container>

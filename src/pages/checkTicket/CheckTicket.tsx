@@ -7,6 +7,8 @@ import Col from "react-bootstrap/esm/Col";
 
 import styles from "./CheckTicket.module.scss";
 import classnames from "classnames/bind";
+import ExamTicket from "../../component/examTicket/ExamTicket";
+import FilterCheck from "../../component/filterCheck/FilterCheck";
 
 const cx = classnames.bind(styles);
 const CheckTicket = () => {
@@ -16,6 +18,12 @@ const CheckTicket = () => {
       <Row>
         <Col lg={2}>
           <Menubar />
+        </Col>
+        <Col lg={7}>
+          <ExamTicket />
+        </Col>
+        <Col lg={3}>
+          <FilterCheck />
         </Col>
       </Row>
     </Container>
