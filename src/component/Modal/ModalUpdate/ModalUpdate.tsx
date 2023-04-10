@@ -8,6 +8,8 @@ import styles from "./ModalUpdate.module.scss";
 import classNames from "classnames/bind";
 import { getDatabase, ref, child, push, update } from "firebase/database";
 import { dataref } from "../../fireBase/FireBase";
+import { useDispatch } from "react-redux";
+import TodoSlice from "../../redux/slices/TodoSlice";
 interface TicketsIn {
   id?: string;
   nameTick?: string;
@@ -15,8 +17,9 @@ interface TicketsIn {
   dateOutUse?: string;
   price?: number;
   priceCombo?: number;
-  AmoutCombo?: number;
-  State?: boolean;
+  amoutCombo?: number;
+  state?: boolean;
+  nameTickSK?: string;
 }
 type Props = { data: TicketsIn };
 const cx = classNames.bind(styles);
@@ -29,10 +32,14 @@ const ModalUpdate = (props: Props) => {
     dateOutUse: props.data.dateOutUse,
     price: props.data.price,
     priceCombo: props.data.priceCombo,
-    AmoutCombo: props.data.AmoutCombo,
-    State: props.data.State,
+    amoutCombo: props.data.amoutCombo,
+    state: props.data.state,
+    nameTickSK: props.data.nameTickSK,
   });
 
+  const [checkOne, setCheckOne] = useState<boolean>(false);
+  const [checkMulti, setCheckMulti] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const showModal = () => {
     setUpdate(true);
   };
@@ -46,12 +53,12 @@ const ModalUpdate = (props: Props) => {
     // const updates: any = {};
     // updates["ListTicket/" + props.data.id] = Tickets;
 
-    dataref
-      .ref("ListTicket/" + props.data.id)
-      .update(Tickets)
-      .catch(alert);
+    // dataref
+    //   .ref("ListTicket/" + props.data.id)
+    //   .update(Tickets)
+    //   .catch(alert);
     // update(ref(db), updates);
-    console.log(123);
+    dispatch(TodoSlice.actions.updatePackTicket(Tickets));
   };
 
   const handleCancel = () => {
@@ -108,23 +115,27 @@ const ModalUpdate = (props: Props) => {
                       })
                     }
                     defaultValue={props.data.id}
+                    disabled={true}
                     className={cx("inp_Ten")}
                     placeholder="PKG20210502"
                   />
                 </div>
               </div>
-              <div>
-                <label className={cx("txtTen")}>Tên sự kiện</label>
+              {props.data.nameTick === "Gói sự kiện" ? (
 
                 <div>
-                  <input
-                    type="text"
-                    className={cx("inp_Ten")}
-                    defaultValue={props.data.nameTick}
-                    placeholder="Hội chợ triển lãm hàng tiêu dùng 2021"
-                  />
+                  <label className={cx("txtTen")}>Tên sự kiện</label>
+
+                    <div>
+                      <input
+                        type="text"
+                        className={cx("inp_Ten")}
+                        defaultValue={props.data.nameTickSK}
+                        placeholder="Hội chợ triển lãm hàng tiêu dùng 2023"
+                      />
+                    </div>
                 </div>
-              </div>
+              ) : null}
             </div>
             <div>
               <Row>
@@ -162,9 +173,15 @@ const ModalUpdate = (props: Props) => {
               <h5 className={cx("txtNgay")}>Giá vé áp dụng </h5>
             </div>
             <div className={cx("Vele")}>
-              <Checkbox />
+            <Checkbox
+                checked={checkOne}
+                onChange={(e) => {
+                  setCheckOne(e.target.checked);
+                }}
+              />
               <p className={cx("txtVe")}>Vé lẻ (vnđ/vé) với giá</p>
               <input
+                disabled={!checkOne}
                 type="text"
                 className={cx("inp_ve")}
                 placeholder="Giá vé"
@@ -179,9 +196,15 @@ const ModalUpdate = (props: Props) => {
               /vé
             </div>
             <div className={cx("Vele")}>
-              <Checkbox />
+            <Checkbox
+                checked={checkMulti}
+                onChange={(e) => {
+                  setCheckMulti(e.target.checked);
+                }}
+              />
               <p className={cx("txtVe")}>Combo vé với giá</p>
               <input
+                disabled={!checkMulti}
                 type="text"
                 className={cx("inp_ve")}
                 placeholder="Giá vé"
@@ -197,12 +220,13 @@ const ModalUpdate = (props: Props) => {
               <input
                 type="text"
                 className={cx("inp_songuoi")}
-                placeholder="Giá vé"
-                defaultValue={props.data.AmoutCombo}
+                disabled={!checkMulti}
+                placeholder="vé"
+                defaultValue={props.data.amoutCombo}
                 onChange={(e) =>
                   setTickets({
                     ...Tickets,
-                    AmoutCombo: parseInt(e.target.value),
+                    amoutCombo: parseInt(e.target.value),
                   })
                 }
               />
@@ -213,10 +237,10 @@ const ModalUpdate = (props: Props) => {
               <div>
                 <Space.Compact style={{ display: "flex" }}>
                   <Select
-                    defaultValue={props.data.State}
+                    defaultValue={props.data.state}
                     onChange={(value: boolean) => {
                       // console.log(value);
-                      setTickets({ ...Tickets, State: value });
+                      setTickets({ ...Tickets, state: value });
                     }}
                   >
                     <Select.Option value={true} label="Đang áp dụng">
