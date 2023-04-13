@@ -9,19 +9,11 @@ import { FilterOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import Table_ExamTicketSK from "./Table_ExamTicketSK";
 import Table_ExamTicketGD from "./Table_ExamTicketGD";
-import {
-  getDatabase,
-  get,
-  child,
-  ref,
-  push,
-  query,
-  orderByChild,
-} from "firebase/database";
 import { AppContext } from "../context/AppProvider";
 import { dataref } from "../fireBase/FireBase";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import TodoSlice, { getListTickets } from "../redux/slices/TodoSlice";
+
 import {
   todoRemainingSelector,
   todoRemainingSelectorSK,
@@ -47,7 +39,7 @@ const ExamTicket = () => {
   // const [packed, setPacked] = useState(true);
   const Tickets = useSelector(todoRemainingSelector);
   const TicketSKs = useSelector(todoRemainingSelectorSK);
-  // console.log(Tickets);
+  const ListTicket = useSelector((state: any) => state.TodoTicket.listTicket);
   // const [Tickets, setTickets] = useState<TicketsIn[]>([]);
   // const [TicketSKs, setTicketSKs] = useState<TicketsIn[]>([]);
   const [search, setSearch] = useState<string>("");
@@ -59,7 +51,7 @@ const ExamTicket = () => {
   };
   useEffect(() => {
     dispatch(getListTickets());
-  }, [dispatch]);
+  }, [dispatch, ListTicket]);
 
   const handleCheck = () => {
     dispatch(TodoSlice.actions.CheckListTicket(item));

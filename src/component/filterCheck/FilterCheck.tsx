@@ -69,7 +69,7 @@ const FilterCheck = () => {
       ) : null}
 
       <div className={cx("wrap_radioFilterCheck")}>
-        <h6 className={cx("label_radioFilterCheck")}>Tình Trạng sử dụng</h6>
+        <h6 className={cx("label_radioFilterCheck")}>Tình trạng sử dụng</h6>
         <Radio.Group
           className={cx("radioFilterCheck")}
           value={status}
