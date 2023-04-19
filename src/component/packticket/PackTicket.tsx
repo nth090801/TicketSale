@@ -17,6 +17,8 @@ import TodoSlice, { getPackTicket } from "../redux/slices/TodoSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { useSelector, useDispatch } from "react-redux";
 
+import Pagination from "../pagination/Pagination";
+
 import { CSVLink } from "react-csv";
 
 interface TicketsIn {
@@ -34,7 +36,7 @@ const { Search } = Input;
 
 const cx = classnames.bind(styles);
 const PackTicket = () => {
-  const { setAdd } = useContext(AppContext);
+  const { setAdd, reRender } = useContext(AppContext);
   const [packed, setPacked] = useState<Boolean>(true);
   // const [Tickets, setTickets] = useState<TicketsIn[] | null>([]);
 
@@ -52,7 +54,7 @@ const Tickets = useSelector((state: any) => state.TodoTicket.packedTicket);
 
   useEffect(() => {
     dispatch(getPackTicket());
-  }, [dispatch, Tickets]);
+  }, [dispatch, Tickets, reRender]);
 
   const headers = [
     { label: "STT", key: "index" },
@@ -79,6 +81,16 @@ const Tickets = useSelector((state: any) => state.TodoTicket.packedTicket);
     headers: headers,
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(9);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentTickets = Tickets.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <Container fluid className={cx("wrap_ListSK")}>
@@ -96,9 +108,26 @@ const Tickets = useSelector((state: any) => state.TodoTicket.packedTicket);
         </div>
       </div>
       <div className={cx("tblSk")}>
-        <Table_PackTicket data={Tickets} />
+      <Table_PackTicket data={currentTickets} />
       </div>
       <ModalAdd />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "absolute",
+          bottom: 15,
+          left: "50%",
+        }}
+      >
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={Tickets.length}
+          paginate={paginate}
+        />
+      </div>
     </Container>
   );
 };

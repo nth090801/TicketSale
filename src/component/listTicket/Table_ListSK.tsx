@@ -15,6 +15,7 @@ interface TicketsIn {
   nameSK: string;
   priceVe: number;
   stateUsed: string;
+  datePublish: string;
 }
 type Props = { data: TicketsIn[] };
 
@@ -76,7 +77,7 @@ const Table_ListSK = (props: Props) => {
               )}
 
               <td>{item.dateUsed}</td>
-              <td>20-215-20</td>
+              <td>{item.datePublish}</td>
               <td>{item.gateCheck}</td>
             </tr>
           ))}
